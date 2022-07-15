@@ -15,7 +15,7 @@ MonoBehaviour:
   thrustStrength: 20
   brakeStrength: 10
   turnStrength: 100
-  velocityCorrection: 0.7
+  velocityCorrection: 0.95
   drag: 2.5
   driftingThrustStrength: 5
   driftingBrakeStrenght: 0
