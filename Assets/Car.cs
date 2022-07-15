@@ -46,7 +46,7 @@ public class Car : MonoBehaviour {
         body.MoveRotation(angle);
     }
 
-    void StartDrift() {
-
+    private void OnTriggerEnter2D(Collider2D collision) {
+        Debug.Log($"Entered trigger with {collision.gameObject}");
     }
 }
