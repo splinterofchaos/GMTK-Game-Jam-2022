@@ -24,14 +24,14 @@ public class Car : MonoBehaviour {
     static Vector2 Project(Vector2 a, Vector2 b) => a * Vector2.Dot(a, b);
 
     public void FixedUpdate() {
-        Vector2 driftingThrust = Vector2.zero;
-        if (!controller.Drifting()) {
-            forwardForce = transform.up * controller.Thrust() * config.thrustStrength;
-        } else {
-            driftingThrust = transform.up * config.driftingThrustStrength;
-        }
+        body.drag = controller.Drifting() ? config.driftingDrag : config.drag;
 
-        body.AddForce(forwardForce + driftingThrust);
+        float thrust = controller.Drifting() ? 1 : controller.Thrust();
+        forwardForce = transform.up * thrust * (
+            controller.Drifting() ? config.driftingThrustStrength
+                                  : config.thrustStrength);
+
+        body.AddForce(forwardForce);
 
         // Modify the sideways velocity to make the ship move more forward.
         Vector2 forwardVelocity = Project(transform.up, body.velocity);
