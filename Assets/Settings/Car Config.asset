@@ -12,5 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33c025ac5d1d63e44afa4e3c83039f57, type: 3}
   m_Name: Car Config
   m_EditorClassIdentifier: 
-  thrustStrength: 0
-  turnStrength: 0
+  thrustStrength: 20
+  brakeStrength: 10
+  turnStrength: 100
+  velocityCorrection: 0.8
+  driftingThrustStrength: 10
+  driftingBrakeStrenght: 0
+  driftingTurnStrength: 300
+  driftingVelocityCorrection: 1
+  driftTolerance: 1
