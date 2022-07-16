@@ -38,7 +38,7 @@ public class DieRollerScript : MonoBehaviour
 
         var rot = Quaternion.FromToRotation(Vector3.up, Vector3.forward);
 
-        diceCam.transform.rotation = baseCamRotation * Quaternion.AngleAxis(ship.angle, Vector3.forward);
-        dieRB.AddForceAtPosition(-(rot * shipAccel) * forceFactor, die.transform.position, ForceMode.Force);
+        //diceCam.transform.rotation = baseCamRotation * Quaternion.AngleAxis(ship.angle, Vector3.forward);
+        dieRB.AddForceAtPosition((rot * shipAccel) * forceFactor, die.transform.position, ForceMode.Force);
     }
 }
