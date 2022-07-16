@@ -13,7 +13,7 @@ public class Car : MonoBehaviour {
     [SerializeField] CarConfig config;
 
     float engineCooldown = 0;
-    const float ENGINE_COOLDOWN = 1.0f;
+    const float ENGINE_COOLDOWN = 0.5f;
 
     private void Start() {
         body = GetComponent<Rigidbody2D>();
