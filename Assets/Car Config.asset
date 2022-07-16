@@ -16,9 +16,11 @@ MonoBehaviour:
   brakeStrength: 10
   turnStrength: 100
   drag: 2.5
+  jetSound: {fileID: 8300000, guid: cd1ff160af132094aa7e62399b07719f, type: 3}
   driftingThrustStrength: 5
   driftingBrakeStrenght: 0
   driftingTurnStrength: 300
   driftTolerance: 1
   driftingDrag: 0.5
+  driftingJetSound: {fileID: 8300000, guid: a4f919ab2f1d1b64db204458bfc58b11, type: 3}
   engineCooldownOnCollision: 1
