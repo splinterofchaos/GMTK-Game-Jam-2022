@@ -12,26 +12,42 @@ public class Car : MonoBehaviour {
 
     [SerializeField] CarConfig config;
 
+    [SerializeField] AudioSource jetAudioSource;
+
     float engineCooldown = 0;
 
-    private void Start() {
+    bool drifting = false;
+
+    private void OnEnable() {
         body = GetComponent<Rigidbody2D>();
         particleSystem = GetComponentInChildren<ParticleSystem>();
+        jetAudioSource.volume = 0;
+        drifting = false;
     }
 
     static Vector2 Project(Vector2 a, Vector2 b) => a * Vector2.Dot(a, b);
 
     public void FixedUpdate() {
-        body.drag = controller.Drifting() ? config.driftingDrag : config.drag;
+        if (controller.Drifting() != drifting) {
+            jetAudioSource.clip = controller.Drifting() ?
+                                  config.driftingJetSound :
+                                  config.jetSound;
+            jetAudioSource.Play();
+            drifting = controller.Drifting();
+        }
 
-        float thrust = controller.Drifting() ? 1 : controller.Thrust();
+        body.drag = drifting ? config.driftingDrag : config.drag;
+
+        jetAudioSource.volume = controller.Thrust();
+
+        float thrust = drifting ? 1 : controller.Thrust();
         float power = 1 - (engineCooldown / config.engineCooldownOnCollision);
-        float strength = controller.Drifting() ? config.driftingThrustStrength
-                                               : config.thrustStrength;
+        float strength = drifting ? config.driftingThrustStrength
+                                    : config.thrustStrength;
         body.AddForce(transform.up * thrust * strength * power);
 
-        float turning = controller.Drifting() ? config.driftingTurnStrength
-                                              : config.turnStrength;
+        float turning = drifting ? config.driftingTurnStrength
+                                 : config.turnStrength;
         angularVelocity = controller.Turn() * Time.fixedDeltaTime * turning;
 
         engineCooldown = Mathf.Max(0, engineCooldown - Time.fixedDeltaTime);
