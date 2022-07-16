@@ -21,3 +21,4 @@ MonoBehaviour:
   driftingTurnStrength: 300
   driftTolerance: 1
   driftingDrag: 0.5
+  engineCooldownOnCollision: 1

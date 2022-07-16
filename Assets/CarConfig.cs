@@ -15,4 +15,7 @@ public class CarConfig : ScriptableObject {
     public float driftingTurnStrength;
     public float driftTolerance;
     public float driftingDrag;
+
+    [Header("Misc")]
+    public float engineCooldownOnCollision = 0.5f;
 }
