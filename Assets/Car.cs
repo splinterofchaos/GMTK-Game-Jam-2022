@@ -12,9 +12,8 @@ public class Car : MonoBehaviour {
 
     [SerializeField] CarConfig config;
 
-    // Updated each frame except while drifting so that the car can maintain
-    // its drift velocity.
-    Vector2 forwardForce;
+    float engineCooldown = 0;
+    const float ENGINE_COOLDOWN = 1.0f;
 
     private void Start() {
         body = GetComponent<Rigidbody2D>();
@@ -26,20 +25,24 @@ public class Car : MonoBehaviour {
     public void FixedUpdate() {
         body.drag = controller.Drifting() ? config.driftingDrag : config.drag;
 
-        float thrust = controller.Drifting() ? 1 : controller.Thrust();
-        forwardForce = transform.up * thrust * (
-            controller.Drifting() ? config.driftingThrustStrength
-                                  : config.thrustStrength);
+        if (engineCooldown <= 0) {
+            float thrust = controller.Drifting() ? 1 : controller.Thrust();
+            float strength = controller.Drifting() ? config.driftingThrustStrength
+                                                   : config.thrustStrength;
+            body.AddForce(transform.up * thrust * strength);
 
-        body.AddForce(forwardForce);
+            float turning = controller.Drifting() ? config.driftingTurnStrength
+                                                  : config.turnStrength;
+            angularVelocity = controller.Turn() * Time.fixedDeltaTime * turning;
+        }
 
-        float turning = controller.Drifting() ? config.driftingTurnStrength
-                                              : config.turnStrength;
-        angle += controller.Turn() * Time.fixedDeltaTime * turning;
+        engineCooldown -= Time.fixedDeltaTime;
+
+        angle += angularVelocity;
         body.MoveRotation(angle);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-        Debug.Log($"Entered trigger with {collision.gameObject}");
+    private void OnCollisionEnter2D(Collision2D collision) {
+        engineCooldown = ENGINE_COOLDOWN;
     }
 }
