@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -8,6 +9,11 @@ public class FlagManager : MonoBehaviour {
 
     public int laps;
     public int currentFlag;
+
+    IEnumerator Start() {
+        yield return new WaitForEndOfFrame();
+        ArenaEvents.LapCountChanged(laps);
+    }
 
     private void OnEnable() {
         instance = this;
@@ -27,6 +33,7 @@ public class FlagManager : MonoBehaviour {
 
         if (nextFlag == null) {
             laps--;
+            ArenaEvents.LapCountChanged(laps);
             nextFlag = flags.First(f => f.order == 0);
         }
 

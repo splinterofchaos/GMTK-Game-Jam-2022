@@ -1,20 +1,23 @@
 using UnityEngine;
 
 public class FlagCounter : MonoBehaviour {
+    [SerializeField] [HideInInspector]
     TMPro.TextMeshProUGUI guiText;
 
-    private void Start() {
+    private void Awake() {
         guiText = GetComponent<TMPro.TextMeshProUGUI>();
     }
 
-    // Start is called before the first frame update
     void OnEnable() {
-        ArenaEvents.flagCountChanged += UpdateCount;
+        ArenaEvents.lapCountChanged += UpdateCount;
     }
 
     private void OnDisable() {
-        ArenaEvents.flagCountChanged -= UpdateCount;
+        ArenaEvents.lapCountChanged -= UpdateCount;
     }
 
-    void UpdateCount(int count) => guiText.text = $"{count} flags remaining";
+    string LapsStr(int count) => count == 1 ? "lap" : "laps";
+
+    void UpdateCount(int count) =>
+        guiText.text = $"{count} {LapsStr(count)} remaining";
 }
