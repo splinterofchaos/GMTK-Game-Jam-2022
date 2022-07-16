@@ -33,13 +33,6 @@ public class Car : MonoBehaviour {
 
         body.AddForce(forwardForce);
 
-        // Modify the sideways velocity to make the ship move more forward.
-        Vector2 forwardVelocity = Project(transform.up, body.velocity);
-        Vector2 sidewaysVelocity = Project(transform.right, body.velocity);
-        body.velocity = forwardVelocity + sidewaysVelocity * (
-            controller.Drifting() ? config.driftingVelocityCorrection
-                                  : config.velocityCorrection);
-
         float turning = controller.Drifting() ? config.driftingTurnStrength
                                               : config.turnStrength;
         angle += controller.Turn() * Time.fixedDeltaTime * turning;
