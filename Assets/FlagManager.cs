@@ -23,13 +23,15 @@ public class FlagManager : MonoBehaviour {
         if (instance == this) instance = null;
     }
 
+    bool OnLastLap() => laps == 1;
+
     public void OnFlagTouched(Flag touchedFlag) {
         touchedFlag.SetIsNext(false);
 
         Flag nextFlag =
             flags.FirstOrDefault(f => f.order == touchedFlag.order + 1);
 
-        if (laps == 0) Destroy(touchedFlag.gameObject);
+        if (OnLastLap()) Destroy(touchedFlag.gameObject);
 
         if (nextFlag == null) {
             laps--;
@@ -37,6 +39,6 @@ public class FlagManager : MonoBehaviour {
             nextFlag = flags.First(f => f.order == 0);
         }
 
-        nextFlag.SetIsNext(true);
+        if (nextFlag != null) nextFlag.SetIsNext(true);
     }
 }
