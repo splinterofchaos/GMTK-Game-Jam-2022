@@ -5,7 +5,7 @@ using UnityEngine;
 public class FlagManager : MonoBehaviour {
     public static FlagManager instance;
 
-    [SerializeField] Flag[] flags;
+    Flag[] flags;
 
     public int laps;
     public int currentFlag;
@@ -17,6 +17,7 @@ public class FlagManager : MonoBehaviour {
 
     private void OnEnable() {
         instance = this;
+        flags = GetComponentsInChildren<Flag>();
     }
 
     private void OnDisable() {

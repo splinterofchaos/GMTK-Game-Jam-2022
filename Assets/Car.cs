@@ -23,6 +23,7 @@ public class Car : MonoBehaviour {
         particleSystem = GetComponentInChildren<ParticleSystem>();
         jetAudioSource.volume = 0;
         drifting = false;
+        angle = transform.rotation.eulerAngles.z;
     }
 
     static Vector2 Project(Vector2 a, Vector2 b) => a * Vector2.Dot(a, b);

@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8755202911947285473, guid: ad452ddfb77a1c147a953399f227d2ab, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8755202911947285478, guid: ad452ddfb77a1c147a953399f227d2ab, type: 3}
       propertyPath: m_Name
       value: Grey Asteroid
