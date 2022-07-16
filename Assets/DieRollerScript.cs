@@ -29,10 +29,10 @@ public class DieRollerScript : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        Vector3 shipVelocity = (ship.transform.position - lastShipPos) / Time.deltaTime;
-        Vector3 shipAccel = (shipVelocity - lastShipVelocity) / Time.deltaTime;
+        Vector3 shipVelocity = (ship.transform.position - lastShipPos) / Time.fixedDeltaTime;
+        Vector3 shipAccel = (shipVelocity - lastShipVelocity) / Time.fixedDeltaTime;
         lastShipPos = ship.transform.position;
         lastShipVelocity = shipVelocity;
 
