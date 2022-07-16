@@ -39,8 +39,9 @@ public class Car : MonoBehaviour {
         body.drag = drifting ? config.driftingDrag : config.drag;
 
         GameSettings settings = GameSettings.instance;
-        jetAudioSource.volume = controller.Thrust() * settings.globalVolume *
-                                                      settings.soundFxVolume;
+        float globalVolume = settings == null ? 1 :
+            settings.globalVolume * settings.soundFxVolume;
+        jetAudioSource.volume = controller.Thrust() * globalVolume;
 
         float thrust = drifting ? 1 : controller.Thrust();
         float power = 1 - (engineCooldown / config.engineCooldownOnCollision);
