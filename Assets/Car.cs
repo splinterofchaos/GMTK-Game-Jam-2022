@@ -5,7 +5,7 @@ using UnityEngine;
 public class Car : MonoBehaviour {
     Rigidbody2D body;
     ParticleSystem particleSystem;
-    float angle = 0;
+    public float angle = 0;
     float angularVelocity = 0;
 
     [SerializeField] CarController controller;
