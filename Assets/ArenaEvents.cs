@@ -18,4 +18,11 @@ public static class ArenaEvents {
         lapCountChanged?.Invoke(newCount);
 
     public static void Victory() => onVictory?.Invoke();
+
+    public static void LoadNextLevel() {
+        if (LevelManager.instance == null) return;
+        string next = LevelManager.instance.NextLevel();
+        if (string.IsNullOrEmpty(next)) return;
+        LevelManager.instance.LoadLevel(next);
+    }
 }

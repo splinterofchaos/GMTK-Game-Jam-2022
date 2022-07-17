@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class VictoryGui : MonoBehaviour {
     [SerializeField] CanvasGroup canvasGroup;
-    [SerializeField] ScenePicker nextLevelButton;
+    [SerializeField] GameObject loadNextLevelText;
     [SerializeField] Transform raceTimerDestination;
     [SerializeField] GameObject raceTimer;
 
@@ -35,17 +35,9 @@ public class VictoryGui : MonoBehaviour {
     }
 
     void OnVictory() {
-        if (LevelManager.instance != null) {
-            string nextLevel = LevelManager.instance.NextLevel();
-            if (nextLevel != null) {
-                Debug.Log("Set next level to" + nextLevel);
-                nextLevelButton.sceneName = nextLevel;
-            } else {
-                Debug.Log("Deactivated next level button");
-                nextLevelButton.gameObject.SetActive(false);
-            }
-        } else {
-            Debug.Log("No level manager");
+        if (LevelManager.instance == null ||
+            LevelManager.instance.NextLevel() == null) {
+            loadNextLevelText.gameObject.SetActive(false);
         }
 
         finished = true;

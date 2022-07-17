@@ -22,6 +22,10 @@ public class PlayerCarController : CarController {
         turn = Input.GetAxis("Turn");
         brakes = Input.GetAxis("Brakes");
         drift = Input.GetButton("Drift");
+
+        if (finished && drift) {
+            ArenaEvents.LoadNextLevel();
+        }
     }
 
     void OnVictory() => finished = true;
