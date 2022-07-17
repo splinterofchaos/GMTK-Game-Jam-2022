@@ -129,8 +129,8 @@ public class DieRollerScript : MonoBehaviour {
             dieMat.SetFloat("_AntiGrav", 1);
         if (!gravity)
         {
-            Bump(0.3f);
-            dieRB.AddTorque(new Vector3(Random.value, Random.value, Random.value) *0.2f);
+            Bump(0.6f);
+            dieRB.AddTorque(new Vector3(Random.value, Random.value, Random.value) *0.6f);
         }
     }
 
