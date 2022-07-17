@@ -45,6 +45,8 @@ public class DieRollerScript : MonoBehaviour {
         lastShipPos = ship.gameObject.transform.position;
         lastShipVelocity = new Vector3(0, 0, 0);
         dieMat = die.GetComponent<MeshRenderer>().material;
+
+        Bump(10);
     }
 
     private void Update() {

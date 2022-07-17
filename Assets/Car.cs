@@ -68,7 +68,6 @@ public class Car : MonoBehaviour {
 
     public void FixedUpdate() {
         if (!started) {
-            if (roller != null) Bump();
             return;
         }
 
