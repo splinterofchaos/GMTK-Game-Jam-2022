@@ -5,7 +5,6 @@ using UnityEngine;
 public class Car : MonoBehaviour {
     Rigidbody2D body;
     ParticleSystem particleSystem;
-    public float angle = 0;
     float angularVelocity = 0;
 
     [SerializeField] CarController controller;
@@ -23,7 +22,6 @@ public class Car : MonoBehaviour {
         particleSystem = GetComponentInChildren<ParticleSystem>();
         jetAudioSource.volume = 0;
         drifting = false;
-        angle = transform.rotation.eulerAngles.z;
     }
 
     static Vector2 Project(Vector2 a, Vector2 b) => a * Vector2.Dot(a, b);
@@ -42,7 +40,8 @@ public class Car : MonoBehaviour {
         GameSettings settings = GameSettings.instance;
         float globalVolume = settings == null ? 1 :
             settings.globalVolume * settings.soundFxVolume;
-        jetAudioSource.volume = controller.Thrust() * globalVolume;
+        jetAudioSource.volume =
+            (controller.Drifting() ? 1 : controller.Thrust()) * globalVolume;
 
         float thrust = drifting ? 1 : controller.Thrust();
         float power = 1 - (engineCooldown / config.engineCooldownOnCollision);
@@ -52,12 +51,10 @@ public class Car : MonoBehaviour {
 
         float turning = drifting ? config.driftingTurnStrength
                                  : config.turnStrength;
-        angularVelocity = controller.Turn() * Time.fixedDeltaTime * turning;
 
         engineCooldown = Mathf.Max(0, engineCooldown - Time.fixedDeltaTime);
 
-        angle += angularVelocity;
-        body.MoveRotation(angle);
+        body.AddTorque(controller.Turn() * Time.fixedDeltaTime * turning);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

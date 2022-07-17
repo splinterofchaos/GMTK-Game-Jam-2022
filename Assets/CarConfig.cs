@@ -20,4 +20,5 @@ public class CarConfig : ScriptableObject {
 
     [Header("Misc")]
     public float engineCooldownOnCollision = 0.5f;
+    public float collisionForceMultiplier = 100;
 }
