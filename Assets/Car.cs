@@ -28,6 +28,7 @@ public class Car : MonoBehaviour {
     [SerializeField]
     float boostduration = 2f;
     float currentduration = 0f;
+    bool started = false;
 
     TrailRenderer[] trails;
 
@@ -46,9 +47,21 @@ public class Car : MonoBehaviour {
         drifting = false;
         drag = body.drag;
         trails = this.GetComponentsInChildren<TrailRenderer>();
+        Debug.Log("Trailrenderers found: " +trails.Length);
+
+        ArenaEvents.onRaceStarted += StartEngines;
+    }
+
+    private void OnDisable() {
+        ArenaEvents.onRaceStarted -= StartEngines;
+    }
+
+    private void Update() {
     }
 
     public void FixedUpdate() {
+        if (!started) return;
+
         /*if (roller != null && roller.speedLevel <= 2) {
             bumpCountdown -= Time.deltaTime;
             if (bumpCountdown <= 0) {
@@ -96,8 +109,7 @@ public class Car : MonoBehaviour {
         body.drag = drifting ? config.driftingDrag : config.drag;
 
         GameSettings settings = GameSettings.instance;
-        float globalVolume = settings == null ? 1 :
-            settings.globalVolume * settings.soundFxVolume;
+        float globalVolume = settings == null ? 1 : settings.soundFxVolume;
         jetAudioSource.volume =
             (controller.Drifting() ? 0 : controller.Thrust()) * globalVolume;
 
@@ -144,4 +156,5 @@ public class Car : MonoBehaviour {
     {
         roller.Bump(config.rollerBumpImpulse);
     }
+    void StartEngines() => started = true;
 }
