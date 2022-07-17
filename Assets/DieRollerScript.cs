@@ -8,6 +8,7 @@ public class DieRollerScript : MonoBehaviour {
     [SerializeField]
     GameObject die;
     Rigidbody dieRB;
+    Material dieMat;
     [SerializeField]
     Camera diceCam;
     [SerializeField]
@@ -27,13 +28,15 @@ public class DieRollerScript : MonoBehaviour {
 
     [SerializeField] string DEBUG_topFace;
 
-    [SerializeField] public float speedLevel { get; private set; }
+    [SerializeField] public int faceNumber { get; private set; }
 
 
     [SerializeField]
     ProjectileScript[] weapons = new ProjectileScript[6];
 
-    bool WeaponCooldown = false;
+    float DieUsed = 0;
+
+    int lastFace = 0;
 
     private void Start()
     {
@@ -41,6 +44,7 @@ public class DieRollerScript : MonoBehaviour {
         dieRB = die.GetComponent<Rigidbody>();
         lastShipPos = ship.gameObject.transform.position;
         lastShipVelocity = new Vector3(0, 0, 0);
+        dieMat = die.GetComponent<MeshRenderer>().material;
     }
 
     private void Update() {
@@ -66,13 +70,33 @@ public class DieRollerScript : MonoBehaviour {
                         maxTransform == fireFace ? "fire" :
                         maxTransform == oilFace ? "oil" :
                         "NONE!?";
-        speedLevel = maxTransform == bulletFace ? 6 :
+        faceNumber = maxTransform == bulletFace ? 6 :
                      maxTransform == boostFace ? 5 :
                      maxTransform == lazerFace ? 4 :
                      maxTransform == mineFace ? 3 :
                      maxTransform == fireFace ? 2 :
                      maxTransform == oilFace ? 1 :
                      0;
+
+        if ((lastFace != faceNumber) && (faceNumber == 6 || faceNumber == 5)    )
+        {
+            Debug.Log("Face Changed to: " + faceNumber);
+            DieUsed = 0;
+            Debug.Log(dieMat);
+            dieMat.SetFloat("_Used",  DieUsed);
+            lastFace = faceNumber;
+        }
+    }
+
+    public bool TryBoost()
+    {
+        if (DieUsed == 0)
+        {
+            DieUsed = 1;
+            dieMat.SetFloat("_Used", DieUsed);
+            return true;
+        }
+        return false;
     }
 
     // Update is called once per frame
@@ -90,7 +114,7 @@ public class DieRollerScript : MonoBehaviour {
     }
 
     public void Bump(float impulse) {
-        Vector3 r = new Vector3(Random.value, Random.value,
+        Vector3 r = new Vector3(Random.value, Random.value+0.25f,
                                 Random.value);
         dieRB.AddForce(r.normalized * impulse, ForceMode.Impulse);
     }
@@ -98,6 +122,15 @@ public class DieRollerScript : MonoBehaviour {
     public void ToggleGravity(bool gravity)
     {
         dieRB.useGravity = gravity;
+        if (gravity)
+            dieMat.SetFloat("_AntiGrav", 0);
+        else
+            dieMat.SetFloat("_AntiGrav", 1);
+        if (!gravity)
+        {
+            Bump(0.3f);
+            dieRB.AddTorque(new Vector3(Random.value, Random.value, Random.value) *0.2f);
+        }
     }
 
     public ProjectileScript GetWeapon()
