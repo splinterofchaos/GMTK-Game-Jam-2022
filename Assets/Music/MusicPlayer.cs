@@ -15,7 +15,6 @@ public class MusicPlayer : MonoBehaviour {
     }
 
     public void Play() {
-        Debug.Log("PLYA");
 
         audioSource.Play();
     }

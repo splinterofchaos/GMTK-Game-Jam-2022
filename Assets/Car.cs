@@ -12,6 +12,8 @@ public class Car : MonoBehaviour {
     [SerializeField] CarConfig config;
 
     [SerializeField] AudioSource jetAudioSource;
+    [SerializeField] AudioSource collisionAudioSource;
+    [SerializeField] AudioSource flagAudioSource;
 
     [SerializeField] DieRollerScript roller;
 
@@ -47,7 +49,7 @@ public class Car : MonoBehaviour {
         drifting = false;
         drag = body.drag;
         trails = this.GetComponentsInChildren<TrailRenderer>();
-        Debug.Log("Trailrenderers found: " +trails.Length);
+        Debug.Log("Trailrenderers found: " + trails.Length);
 
         ArenaEvents.onRaceStarted += StartEngines;
     }
@@ -75,8 +77,7 @@ public class Car : MonoBehaviour {
             bumpCountdown = config.timeUntilBump;
         }*/
 
-        if (controller.Drifting() != drifting)
-        {
+        if (controller.Drifting() != drifting) {
             jetAudioSource.clip = controller.Drifting() ?
                                   config.driftingJetSound :
                                   config.jetSound;
@@ -84,23 +85,18 @@ public class Car : MonoBehaviour {
             drifting = controller.Drifting();
 
             // roller.Bump(config.rollerBumpImpulse);
-            
+
         }
 
-        if(drifting)
-        {
+        if (drifting) {
             body.drag = 0;
-            foreach (TrailRenderer trail in trails)
-            {
+            foreach (TrailRenderer trail in trails) {
                 trail.emitting = false;
             }
             roller.ToggleGravity(false);
-        }
-        else
-        {
+        } else {
             body.drag = drag;
-            foreach (TrailRenderer trail in trails)
-            {
+            foreach (TrailRenderer trail in trails) {
                 trail.emitting = true;
             }
             roller.ToggleGravity(true);
@@ -108,15 +104,13 @@ public class Car : MonoBehaviour {
 
         body.drag = drifting ? config.driftingDrag : config.drag;
 
-        GameSettings settings = GameSettings.instance;
-        float globalVolume = settings == null ? 1 : settings.soundFxVolume;
-        jetAudioSource.volume = globalVolume;
+        jetAudioSource.volume = SoundEffectVolume();
 
         float thrust = drifting ? 0 : controller.Thrust();
         float power = 1 - (engineCooldown / config.engineCooldownOnCollision);
         float strength = drifting ? config.driftingThrustStrength
                                   : config.thrustStrength;
-        
+
         body.AddForce(transform.up * thrust * strength * power * (currentduration > 0 ? boostpower : 1));
 
         float turning = drifting ? config.driftingTurnStrength
@@ -127,10 +121,8 @@ public class Car : MonoBehaviour {
         body.AddTorque(controller.Turn() * Time.fixedDeltaTime * turning);
 
 
-        if (controller.Firing())
-        {
-            if (roller.TryBoost())
-            {
+        if (controller.Firing()) {
+            if (roller.TryBoost()) {
                 Debug.Log("Boost!");
                 currentduration = boostduration;
             }
@@ -145,13 +137,23 @@ public class Car : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision) {
         engineCooldown = config.engineCooldownOnCollision;
         roller.Bump(config.rollerBumpImpulse);
+
+        collisionAudioSource.volume = SoundEffectVolume();
+        collisionAudioSource.Play();
     }
 
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log("trigger");
-        roller.Bump(config.rollerBumpImpulse*2);
+    private void OnTriggerEnter2D(Collider2D other) {
+        roller.Bump(config.rollerBumpImpulse * 2);
+
+        flagAudioSource.volume = SoundEffectVolume();
+        flagAudioSource.Play();
     }
+
     void StartEngines() => started = true;
+
+    float SoundEffectVolume() {
+        GameSettings settings = GameSettings.instance;
+        return settings == null ? 1 : settings.soundFxVolume;
+    }
 }
