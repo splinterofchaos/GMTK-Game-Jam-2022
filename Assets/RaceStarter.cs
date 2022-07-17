@@ -12,7 +12,8 @@ public class RaceStarter : MonoBehaviour {
         canvasGroup = GetComponent<CanvasGroup>();
         audioSource = GetComponent<AudioSource>();
         audioSource.Play();
-        audioSource.volume = GameSettings.instance.soundFxVolume;
+        audioSource.volume = GameSettings.instance != null ?
+            GameSettings.instance.soundFxVolume : 1;
 
         readySetGo.text = "3\nReady...";
         yield return new WaitForSeconds(1);
