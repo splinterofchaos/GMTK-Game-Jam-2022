@@ -40,6 +40,10 @@ public class FlagManager : MonoBehaviour {
             nextFlag = flags.First(f => f.order == 0);
         }
 
-        if (nextFlag != null) nextFlag.SetIsNext(true);
+        if (nextFlag != null) {
+            nextFlag.SetIsNext(true);
+        } else {
+            ArenaEvents.Victory();
+        }
     }
 }

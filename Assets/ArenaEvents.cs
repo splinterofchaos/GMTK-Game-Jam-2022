@@ -6,6 +6,7 @@ public static class ArenaEvents {
     public static Action<int> flagCountChanged;
     public static Action nextFlagChanged;
     public static Action<int> lapCountChanged;
+    public static Action onVictory;
 
     public static void AddFlag() => flagCountChanged?.Invoke(++flagCount);
     public static void FlagCleared() {
@@ -15,4 +16,6 @@ public static class ArenaEvents {
 
     public static void LapCountChanged(int newCount) =>
         lapCountChanged?.Invoke(newCount);
+
+    public static void Victory() => onVictory?.Invoke();
 }
