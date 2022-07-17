@@ -117,11 +117,7 @@ public class Car : MonoBehaviour {
         float power = 1 - (engineCooldown / config.engineCooldownOnCollision);
         float strength = drifting ? config.driftingThrustStrength
                                   : config.thrustStrength;
-        if (roller != null && !drifting) {
-            strength = config.speedLevelBase +
-                config.speedLevelMultiplier * roller.faceNumber;
-            thrust = 1;
-        }
+        
         body.AddForce(transform.up * thrust * strength * power * (currentduration > 0 ? boostpower : 1));
 
         float turning = drifting ? config.driftingTurnStrength
@@ -152,9 +148,11 @@ public class Car : MonoBehaviour {
         roller.Bump(config.rollerBumpImpulse);
     }
 
-    private void OnTriggerEnter(Collider other)
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        roller.Bump(config.rollerBumpImpulse);
+        Debug.Log("trigger");
+        roller.Bump(config.rollerBumpImpulse*2);
     }
     void StartEngines() => started = true;
 }
