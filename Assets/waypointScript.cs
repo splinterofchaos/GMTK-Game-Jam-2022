@@ -46,4 +46,9 @@ public class waypointScript : MonoBehaviour
         }
         //this.transform.position = Vector3.Slerp()
     }
+
+    public virtual void TakeDamage()
+    {
+
+    }
 }

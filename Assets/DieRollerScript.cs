@@ -29,6 +29,12 @@ public class DieRollerScript : MonoBehaviour {
 
     [SerializeField] public float speedLevel { get; private set; }
 
+
+    [SerializeField]
+    ProjectileScript[] weapons = new ProjectileScript[6];
+
+    bool WeaponCooldown = false;
+
     private void Start()
     {
         baseCamRotation = diceCam.transform.rotation;
@@ -87,5 +93,15 @@ public class DieRollerScript : MonoBehaviour {
         Vector3 r = new Vector3(Random.value, Random.value,
                                 Random.value);
         dieRB.AddForce(r.normalized * impulse, ForceMode.Impulse);
+    }
+
+    public void ToggleGravity(bool gravity)
+    {
+        dieRB.useGravity = gravity;
+    }
+
+    public ProjectileScript GetWeapon()
+    {
+        return weapons[0];
     }
 }

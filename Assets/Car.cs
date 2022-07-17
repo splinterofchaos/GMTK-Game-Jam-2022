@@ -25,6 +25,14 @@ public class Car : MonoBehaviour {
 
     TrailRenderer[] trails;
 
+    [SerializeField]
+    Transform WeaponLeft;
+    [SerializeField]
+    Transform WeaponRight;
+    [SerializeField]
+    Transform WeaponBack;
+
+
     private void OnEnable() {
         body = GetComponent<Rigidbody2D>();
         particleSystem = GetComponentInChildren<ParticleSystem>();
@@ -71,6 +79,7 @@ public class Car : MonoBehaviour {
             {
                 trail.emitting = false;
             }
+            roller.ToggleGravity(false);
         }
         else
         {
@@ -79,6 +88,7 @@ public class Car : MonoBehaviour {
             {
                 trail.emitting = true;
             }
+            roller.ToggleGravity(true);
         }
 
         body.drag = drifting ? config.driftingDrag : config.drag;
@@ -106,6 +116,13 @@ public class Car : MonoBehaviour {
         engineCooldown = Mathf.Max(0, engineCooldown - Time.fixedDeltaTime);
 
         body.AddTorque(controller.Turn() * Time.fixedDeltaTime * turning);
+
+
+        if (controller.Firing())
+        {
+            WeaponsManager weapon = roller.GetWeapon();
+            weapon.Fire(WeaponLeft, WeaponRight, WeaponBack);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

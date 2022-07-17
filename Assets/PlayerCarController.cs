@@ -7,6 +7,7 @@ public class PlayerCarController : CarController {
     [SerializeField] float turn;
     [SerializeField] float brakes;
     [SerializeField] bool drift;
+    [SerializeField] bool firing;
     bool finished;
 
     private void OnEnable() {
@@ -22,6 +23,7 @@ public class PlayerCarController : CarController {
         turn = Input.GetAxis("Turn");
         brakes = Input.GetAxis("Brakes");
         drift = Input.GetButton("Drift");
+        firing = Input.GetKey(KeyCode.Q);
 
         if (finished && drift) {
             ArenaEvents.LoadNextLevel();
@@ -38,4 +40,5 @@ public class PlayerCarController : CarController {
     public override float Turn() => finished ? 0 : turn;
     public override float Brakes() => finished ? 0 : brakes;
     public override bool Drifting() => !finished && drift;
+    public override bool Firing() => finished ? false : firing;
 }

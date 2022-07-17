@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Die Shader
-  m_Shader: {fileID: -6465566751694194690, guid: e3c3a275f1190324a8399fd49419a455, type: 3}
+  m_Name: Shader Graphs_AntiGrav Die
+  m_Shader: {fileID: -6465566751694194690, guid: 5814c3b9b3dc3a14582e163970a071f4, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -38,13 +38,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AntiGrav: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Used: 0
     m_Colors:
-    - _UsedTint: {r: 1, g: 1, b: 1, a: 0.2627451}
+    - _UsedTint: {r: 1, g: 1, b: 1, a: 0.22745098}
   m_BuildTextureStacks: []
---- !u!114 &6591223967464406511
+--- !u!114 &3446768209402499949
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

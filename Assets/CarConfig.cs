@@ -19,7 +19,7 @@ public class CarConfig : ScriptableObject {
     public AudioClip driftingJetSound;
 
     [Header("Misc")]
-    public float engineCooldownOnCollision = 0.5f;
+    public float engineCooldownOnCollision = 2f;
     public float collisionForceMultiplier = 100;
     public float speedLevelMultiplier = 2;
     public float speedLevelBase = 12;

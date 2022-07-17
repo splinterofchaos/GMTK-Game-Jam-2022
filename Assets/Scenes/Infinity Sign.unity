@@ -1881,6 +1881,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1600597314084646926, guid: 555373821db74334782f084705425f71, type: 3}
+      propertyPath: m_Mass
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1874274568684713014, guid: 555373821db74334782f084705425f71, type: 3}
       propertyPath: m_Name
       value: Level Prefab
