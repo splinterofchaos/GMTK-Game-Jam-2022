@@ -10,5 +10,6 @@ public class GameSettings : MonoBehaviour {
 
     private void Awake() {
         instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 }

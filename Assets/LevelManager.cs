@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour {
 
     private void OnEnable() {
         instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void OnDisable() {
