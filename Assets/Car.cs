@@ -23,6 +23,8 @@ public class Car : MonoBehaviour {
 
     float bumpCountdown;
 
+    bool started = false;
+
     TrailRenderer[] trails;
 
     [SerializeField]
@@ -41,12 +43,20 @@ public class Car : MonoBehaviour {
         drag = body.drag;
         trails = this.GetComponentsInChildren<TrailRenderer>();
         Debug.Log("Trailrenderers found: " +trails.Length);
+
+        ArenaEvents.onRaceStarted += StartEngines;
+    }
+
+    private void OnDisable() {
+        ArenaEvents.onRaceStarted -= StartEngines;
     }
 
     private void Update() {
     }
 
     public void FixedUpdate() {
+        if (!started) return;
+
         /*if (roller != null && roller.speedLevel <= 2) {
             bumpCountdown -= Time.deltaTime;
             if (bumpCountdown <= 0) {
@@ -130,4 +140,6 @@ public class Car : MonoBehaviour {
         engineCooldown = config.engineCooldownOnCollision;
         roller.Bump(config.rollerBumpImpulse);
     }
+
+    void StartEngines() => started = true;
 }

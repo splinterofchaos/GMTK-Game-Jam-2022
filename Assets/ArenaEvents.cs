@@ -7,6 +7,7 @@ public static class ArenaEvents {
     public static Action nextFlagChanged;
     public static Action<int> lapCountChanged;
     public static Action onVictory;
+    public static Action onRaceStarted;
 
     public static void AddFlag() => flagCountChanged?.Invoke(++flagCount);
     public static void FlagCleared() {
@@ -25,4 +26,6 @@ public static class ArenaEvents {
         if (string.IsNullOrEmpty(next)) return;
         LevelManager.instance.LoadLevel(next);
     }
+
+    public static void RaceStarted() => onRaceStarted?.Invoke();
 }
