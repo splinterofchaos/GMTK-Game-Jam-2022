@@ -119,7 +119,8 @@ public class DieRollerScript : MonoBehaviour {
         Vector3 r = new Vector3(Random.value, Random.value+0.25f,
                                 Random.value);
         dieRB.AddForce(r.normalized * impulse, ForceMode.Impulse);
-        dieRB.AddTorque(new Vector3(Random.value, Random.value, Random.value));
+        dieRB.AddTorque(new Vector3(Random.value, Random.value, Random.value),
+                        ForceMode.Impulse);
     }
 
     public void ToggleGravity(bool gravity)
