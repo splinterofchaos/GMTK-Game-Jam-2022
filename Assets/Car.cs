@@ -13,9 +13,13 @@ public class Car : MonoBehaviour {
 
     [SerializeField] AudioSource jetAudioSource;
 
+    [SerializeField] DieRollerScript roller;
+
     float engineCooldown = 0;
 
     bool drifting = false;
+
+    float bumpCountdown;
 
     private void OnEnable() {
         body = GetComponent<Rigidbody2D>();
@@ -24,9 +28,22 @@ public class Car : MonoBehaviour {
         drifting = false;
     }
 
-    static Vector2 Project(Vector2 a, Vector2 b) => a * Vector2.Dot(a, b);
+    private void Update() {
+    }
 
     public void FixedUpdate() {
+        if (roller != null && roller.speedLevel <= 2) {
+            bumpCountdown -= Time.deltaTime;
+            if (bumpCountdown <= 0) {
+                body.AddForce(new Vector2(Random.value, Random.value).normalized *
+                              config.bumpImpulse,
+                              ForceMode2D.Impulse);
+                bumpCountdown = config.timeUntilBump;
+            }
+        } else {
+            bumpCountdown = config.timeUntilBump;
+        }
+
         if (controller.Drifting() != drifting) {
             jetAudioSource.clip = controller.Drifting() ?
                                   config.driftingJetSound :
@@ -46,7 +63,12 @@ public class Car : MonoBehaviour {
         float thrust = drifting ? 1 : controller.Thrust();
         float power = 1 - (engineCooldown / config.engineCooldownOnCollision);
         float strength = drifting ? config.driftingThrustStrength
-                                    : config.thrustStrength;
+                                  : config.thrustStrength;
+        if (roller != null && !drifting) {
+            strength = config.speedLevelBase +
+                config.speedLevelMultiplier * roller.speedLevel;
+            thrust = 1;
+        }
         body.AddForce(transform.up * thrust * strength * power);
 
         float turning = drifting ? config.driftingTurnStrength

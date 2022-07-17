@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DieRollerScript : MonoBehaviour
-{
+public class DieRollerScript : MonoBehaviour {
     [SerializeField]
     Car ship;
     [SerializeField]
@@ -19,6 +18,17 @@ public class DieRollerScript : MonoBehaviour
     Vector3 lastShipPos;
     Vector3 lastShipVelocity;
 
+    [SerializeField] Transform bulletFace;
+    [SerializeField] Transform boostFace;
+    [SerializeField] Transform lazerFace;
+    [SerializeField] Transform mineFace;
+    [SerializeField] Transform fireFace;
+    [SerializeField] Transform oilFace;
+
+    [SerializeField] string DEBUG_topFace;
+
+    [SerializeField] public float speedLevel { get; private set; }
+
     private void Start()
     {
         baseCamRotation = diceCam.transform.rotation;
@@ -27,6 +37,37 @@ public class DieRollerScript : MonoBehaviour
         lastShipVelocity = new Vector3(0, 0, 0);
     }
 
+    private void Update() {
+        Transform[] transforms = new Transform[] {
+            bulletFace, boostFace, lazerFace, mineFace, fireFace, oilFace
+        };
+
+        float maxDotProduct = 1;
+        Transform maxTransform = null;
+        foreach (Transform t in transforms) {
+            float dot = Vector3.Dot(t.position - die.transform.position,
+                                    Vector3.up);
+            if (dot > maxDotProduct) {
+                maxDotProduct = dot;
+                maxTransform = t;
+            }
+        }
+
+        DEBUG_topFace = maxTransform == bulletFace ? "bullet" :
+                        maxTransform == boostFace ? "boost" :
+                        maxTransform == lazerFace ? "lazer" :
+                        maxTransform == mineFace ? "mine" :
+                        maxTransform == fireFace ? "fire" :
+                        maxTransform == oilFace ? "oil" :
+                        "NONE!?";
+        speedLevel = maxTransform == bulletFace ? 6 :
+                     maxTransform == boostFace ? 5 :
+                     maxTransform == lazerFace ? 4 :
+                     maxTransform == mineFace ? 3 :
+                     maxTransform == fireFace ? 2 :
+                     maxTransform == oilFace ? 1 :
+                     0;
+    }
 
     // Update is called once per frame
     void FixedUpdate()

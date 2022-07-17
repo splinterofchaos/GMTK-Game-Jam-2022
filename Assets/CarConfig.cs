@@ -21,4 +21,9 @@ public class CarConfig : ScriptableObject {
     [Header("Misc")]
     public float engineCooldownOnCollision = 0.5f;
     public float collisionForceMultiplier = 100;
+    public float speedLevelMultiplier = 2;
+    public float speedLevelBase = 12;
+    [Tooltip("Number of seconds until we bump a ship moving too slowly.")]
+    public float timeUntilBump = 2;
+    public float bumpImpulse = 5;
 }

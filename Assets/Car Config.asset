@@ -17,7 +17,7 @@ MonoBehaviour:
   turnStrength: 150
   drag: 2.5
   jetSound: {fileID: 8300000, guid: cd1ff160af132094aa7e62399b07719f, type: 3}
-  driftingThrustStrength: 5
+  driftingThrustStrength: 2
   driftingBrakeStrenght: 0
   driftingTurnStrength: 500
   driftTolerance: 1
@@ -25,3 +25,7 @@ MonoBehaviour:
   driftingJetSound: {fileID: 8300000, guid: a4f919ab2f1d1b64db204458bfc58b11, type: 3}
   engineCooldownOnCollision: 1
   collisionForceMultiplier: 10
+  speedLevelMultiplier: 2
+  speedLevelBase: 14
+  timeUntilBump: 2
+  bumpImpulse: 10
