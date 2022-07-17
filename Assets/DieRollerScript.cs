@@ -82,4 +82,10 @@ public class DieRollerScript : MonoBehaviour {
         //diceCam.transform.rotation = baseCamRotation * Quaternion.AngleAxis(ship.angle, Vector3.forward);
         dieRB.AddForceAtPosition((rot * shipAccel) * forceFactor, die.transform.position, ForceMode.Force);
     }
+
+    public void Bump(float impulse) {
+        Vector3 r = new Vector3(Random.value, Random.value,
+                                Random.value);
+        dieRB.AddForce(r.normalized * impulse, ForceMode.Impulse);
+    }
 }

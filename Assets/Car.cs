@@ -38,6 +38,7 @@ public class Car : MonoBehaviour {
                 body.AddForce(new Vector2(Random.value, Random.value).normalized *
                               config.bumpImpulse,
                               ForceMode2D.Impulse);
+                roller.Bump(config.rollerBumpImpulse);
                 bumpCountdown = config.timeUntilBump;
             }
         } else {

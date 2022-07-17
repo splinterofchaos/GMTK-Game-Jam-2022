@@ -26,4 +26,5 @@ public class CarConfig : ScriptableObject {
     [Tooltip("Number of seconds until we bump a ship moving too slowly.")]
     public float timeUntilBump = 2;
     public float bumpImpulse = 5;
+    public float rollerBumpImpulse = 5;
 }

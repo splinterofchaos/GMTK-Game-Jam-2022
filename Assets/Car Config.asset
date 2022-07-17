@@ -29,3 +29,4 @@ MonoBehaviour:
   speedLevelBase: 14
   timeUntilBump: 2
   bumpImpulse: 10
+  rollerBumpImpulse: 10
