@@ -16,7 +16,7 @@ public class ScenePicker : MonoBehaviour {
         }
     }
 
-    public void OnClick() => SceneManager.LoadScene(sceneName);
+    public void OnClick() => LevelManager.instance.LoadLevel(sceneName);
 
     private void OnValidate() {
         sceneName = sceneName;
