@@ -23,6 +23,11 @@ public class Car : MonoBehaviour {
 
     float bumpCountdown;
 
+    [SerializeField]
+    float boostpower = 2.5f;
+    [SerializeField]
+    float boostduration = 2f;
+    float currentduration = 0f;
     bool started = false;
 
     TrailRenderer[] trails;
@@ -114,10 +119,10 @@ public class Car : MonoBehaviour {
                                   : config.thrustStrength;
         if (roller != null && !drifting) {
             strength = config.speedLevelBase +
-                config.speedLevelMultiplier * roller.speedLevel;
+                config.speedLevelMultiplier * roller.faceNumber;
             thrust = 1;
         }
-        body.AddForce(transform.up * thrust * strength * power);
+        body.AddForce(transform.up * thrust * strength * power * (currentduration > 0 ? boostpower : 1));
 
         float turning = drifting ? config.driftingTurnStrength
                                  : config.turnStrength;
@@ -129,11 +134,17 @@ public class Car : MonoBehaviour {
 
         if (controller.Firing())
         {
-            ProjectileScript weapon = roller.GetWeapon();
+            if (roller.TryBoost())
+            {
+                Debug.Log("Boost!");
+                currentduration = boostduration;
+            }
+            // ProjectileScript weapon = roller.GetWeapon();
             // weapon.Fire(WeaponLeft, WeaponRight, WeaponBack);
-            Instantiate(weapon, WeaponLeft).transform.parent = null;
-            Instantiate(weapon, WeaponRight).transform.parent = null;
+            // Instantiate(weapon, WeaponLeft).transform.parent = null;
+            // Instantiate(weapon, WeaponRight).transform.parent = null;
         }
+        currentduration -= Time.deltaTime;
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -141,5 +152,9 @@ public class Car : MonoBehaviour {
         roller.Bump(config.rollerBumpImpulse);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        roller.Bump(config.rollerBumpImpulse);
+    }
     void StartEngines() => started = true;
 }
