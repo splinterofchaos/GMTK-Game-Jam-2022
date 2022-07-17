@@ -110,8 +110,7 @@ public class Car : MonoBehaviour {
 
         GameSettings settings = GameSettings.instance;
         float globalVolume = settings == null ? 1 : settings.soundFxVolume;
-        jetAudioSource.volume =
-            (controller.Drifting() ? 0 : controller.Thrust()) * globalVolume;
+        jetAudioSource.volume = globalVolume;
 
         float thrust = drifting ? 0 : controller.Thrust();
         float power = 1 - (engineCooldown / config.engineCooldownOnCollision);
