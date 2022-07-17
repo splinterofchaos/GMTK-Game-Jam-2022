@@ -25,7 +25,7 @@ MonoBehaviour:
   driftingJetSound: {fileID: 8300000, guid: a4f919ab2f1d1b64db204458bfc58b11, type: 3}
   engineCooldownOnCollision: 1
   collisionForceMultiplier: 10
-  speedLevelMultiplier: 2
+  speedLevelMultiplier: 3
   speedLevelBase: 14
   timeUntilBump: 2
   bumpImpulse: 5

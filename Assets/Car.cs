@@ -61,21 +61,28 @@ public class Car : MonoBehaviour {
     private void Update() {
     }
 
-    public void FixedUpdate() {
-        if (!started) return;
+    void Bump(float multiplier = 1) {
+        roller.Bump(config.bumpImpulse * multiplier);
+        bumpCountdown = config.timeUntilBump;
+    }
 
-        /*if (roller != null && roller.speedLevel <= 2) {
+    public void FixedUpdate() {
+        if (!started) {
+            if (roller != null) Bump();
+            return;
+        }
+
+        if (roller != null && roller.faceNumber <= 2) {
             bumpCountdown -= Time.deltaTime;
             if (bumpCountdown <= 0) {
                 body.AddForce(new Vector2(Random.value, Random.value).normalized *
                               config.bumpImpulse,
                               ForceMode2D.Impulse);
-                roller.Bump(config.rollerBumpImpulse);
-                bumpCountdown = config.timeUntilBump;
+                Bump();
             }
         } else {
             bumpCountdown = config.timeUntilBump;
-        }*/
+        }
 
         if (controller.Drifting() != drifting) {
             jetAudioSource.clip = controller.Drifting() ?
@@ -111,6 +118,12 @@ public class Car : MonoBehaviour {
         float strength = drifting ? config.driftingThrustStrength
                                   : config.thrustStrength;
 
+        if (roller != null && !drifting) {
+            strength = config.speedLevelBase +
+                config.speedLevelMultiplier * roller.faceNumber;
+            thrust = 1;
+        }
+
         body.AddForce(transform.up * thrust * strength * power * (currentduration > 0 ? boostpower : 1));
 
         float turning = drifting ? config.driftingTurnStrength
@@ -119,24 +132,11 @@ public class Car : MonoBehaviour {
         engineCooldown = Mathf.Max(0, engineCooldown - Time.fixedDeltaTime);
 
         body.AddTorque(controller.Turn() * Time.fixedDeltaTime * turning);
-
-
-        if (controller.Firing()) {
-            if (roller.TryBoost()) {
-                Debug.Log("Boost!");
-                currentduration = boostduration;
-            }
-            // ProjectileScript weapon = roller.GetWeapon();
-            // weapon.Fire(WeaponLeft, WeaponRight, WeaponBack);
-            // Instantiate(weapon, WeaponLeft).transform.parent = null;
-            // Instantiate(weapon, WeaponRight).transform.parent = null;
-        }
-        currentduration -= Time.deltaTime;
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
         engineCooldown = config.engineCooldownOnCollision;
-        roller.Bump(config.rollerBumpImpulse);
+        Bump();
 
         collisionAudioSource.volume = SoundEffectVolume();
         collisionAudioSource.Play();
@@ -144,7 +144,7 @@ public class Car : MonoBehaviour {
 
 
     private void OnTriggerEnter2D(Collider2D other) {
-        roller.Bump(config.rollerBumpImpulse * 2);
+        Bump(2);
 
         flagAudioSource.volume = SoundEffectVolume();
         flagAudioSource.Play();

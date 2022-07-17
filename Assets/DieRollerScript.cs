@@ -19,12 +19,12 @@ public class DieRollerScript : MonoBehaviour {
     Vector3 lastShipPos;
     Vector3 lastShipVelocity;
 
-    [SerializeField] Transform bulletFace;
-    [SerializeField] Transform boostFace;
-    [SerializeField] Transform lazerFace;
-    [SerializeField] Transform mineFace;
-    [SerializeField] Transform fireFace;
-    [SerializeField] Transform oilFace;
+    [SerializeField] Transform six;
+    [SerializeField] Transform five;
+    [SerializeField] Transform four;
+    [SerializeField] Transform three;
+    [SerializeField] Transform two;
+    [SerializeField] Transform one;
 
     [SerializeField] string DEBUG_topFace;
 
@@ -49,7 +49,7 @@ public class DieRollerScript : MonoBehaviour {
 
     private void Update() {
         Transform[] transforms = new Transform[] {
-            bulletFace, boostFace, lazerFace, mineFace, fireFace, oilFace
+            six, five, four, three, two, one
         };
 
         float maxDotProduct = 1;
@@ -63,19 +63,19 @@ public class DieRollerScript : MonoBehaviour {
             }
         }
 
-        DEBUG_topFace = maxTransform == bulletFace ? "bullet" :
-                        maxTransform == boostFace ? "boost" :
-                        maxTransform == lazerFace ? "lazer" :
-                        maxTransform == mineFace ? "mine" :
-                        maxTransform == fireFace ? "fire" :
-                        maxTransform == oilFace ? "oil" :
+        DEBUG_topFace = maxTransform == six ? "bullet" :
+                        maxTransform == five ? "boost" :
+                        maxTransform == four ? "lazer" :
+                        maxTransform == three ? "mine" :
+                        maxTransform == two ? "fire" :
+                        maxTransform == one ? "oil" :
                         "NONE!?";
-        faceNumber = maxTransform == bulletFace ? 6 :
-                     maxTransform == boostFace ? 5 :
-                     maxTransform == lazerFace ? 4 :
-                     maxTransform == mineFace ? 3 :
-                     maxTransform == fireFace ? 2 :
-                     maxTransform == oilFace ? 1 :
+        faceNumber = maxTransform == six ? 6 :
+                     maxTransform == five ? 5 :
+                     maxTransform == four ? 4 :
+                     maxTransform == three ? 3 :
+                     maxTransform == two ? 2 :
+                     maxTransform == one ? 1 :
                      0;
 
         if ((lastFace != faceNumber) && (faceNumber == 6 || faceNumber == 5)    )
