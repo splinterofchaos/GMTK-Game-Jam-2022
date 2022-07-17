@@ -94,8 +94,7 @@ public class Car : MonoBehaviour {
         body.drag = drifting ? config.driftingDrag : config.drag;
 
         GameSettings settings = GameSettings.instance;
-        float globalVolume = settings == null ? 1 :
-            settings.globalVolume * settings.soundFxVolume;
+        float globalVolume = settings == null ? 1 : settings.soundFxVolume;
         jetAudioSource.volume =
             (controller.Drifting() ? 0 : controller.Thrust()) * globalVolume;
 
