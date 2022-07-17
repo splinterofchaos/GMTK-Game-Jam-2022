@@ -15,24 +15,31 @@ public class Car : MonoBehaviour {
 
     [SerializeField] DieRollerScript roller;
 
+    float drag;
+
     float engineCooldown = 0;
 
     bool drifting = false;
 
     float bumpCountdown;
 
+    TrailRenderer[] trails;
+
     private void OnEnable() {
         body = GetComponent<Rigidbody2D>();
         particleSystem = GetComponentInChildren<ParticleSystem>();
         jetAudioSource.volume = 0;
         drifting = false;
+        drag = body.drag;
+        trails = this.GetComponentsInChildren<TrailRenderer>();
+        Debug.Log("Trailrenderers found: " +trails.Length);
     }
 
     private void Update() {
     }
 
     public void FixedUpdate() {
-        if (roller != null && roller.speedLevel <= 2) {
+        /*if (roller != null && roller.speedLevel <= 2) {
             bumpCountdown -= Time.deltaTime;
             if (bumpCountdown <= 0) {
                 body.AddForce(new Vector2(Random.value, Random.value).normalized *
@@ -43,16 +50,35 @@ public class Car : MonoBehaviour {
             }
         } else {
             bumpCountdown = config.timeUntilBump;
-        }
+        }*/
 
-        if (controller.Drifting() != drifting) {
+        if (controller.Drifting() != drifting)
+        {
             jetAudioSource.clip = controller.Drifting() ?
                                   config.driftingJetSound :
                                   config.jetSound;
             jetAudioSource.Play();
             drifting = controller.Drifting();
 
-            roller.Bump(config.rollerBumpImpulse);
+            // roller.Bump(config.rollerBumpImpulse);
+            
+        }
+
+        if(drifting)
+        {
+            body.drag = 0;
+            foreach (TrailRenderer trail in trails)
+            {
+                trail.emitting = false;
+            }
+        }
+        else
+        {
+            body.drag = drag;
+            foreach (TrailRenderer trail in trails)
+            {
+                trail.emitting = true;
+            }
         }
 
         body.drag = drifting ? config.driftingDrag : config.drag;
@@ -61,9 +87,9 @@ public class Car : MonoBehaviour {
         float globalVolume = settings == null ? 1 :
             settings.globalVolume * settings.soundFxVolume;
         jetAudioSource.volume =
-            (controller.Drifting() ? 1 : controller.Thrust()) * globalVolume;
+            (controller.Drifting() ? 0 : controller.Thrust()) * globalVolume;
 
-        float thrust = drifting ? 1 : controller.Thrust();
+        float thrust = drifting ? 0 : controller.Thrust();
         float power = 1 - (engineCooldown / config.engineCooldownOnCollision);
         float strength = drifting ? config.driftingThrustStrength
                                   : config.thrustStrength;
@@ -84,5 +110,6 @@ public class Car : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision) {
         engineCooldown = config.engineCooldownOnCollision;
+        roller.Bump(config.rollerBumpImpulse);
     }
 }
