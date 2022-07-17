@@ -226,6 +226,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   readySetGo: {fileID: 8445674505183578600}
+  readyClip: {fileID: 8300000, guid: 345f13562b67ea24e8ef952b9498319d, type: 3}
+  setClip: {fileID: 8300000, guid: 345f13562b67ea24e8ef952b9498319d, type: 3}
+  goClip: {fileID: 8300000, guid: 035cf47fc5925e74f9df7ffb1c94e06b, type: 3}
+  musicPlayer: {fileID: 8372519663900760028}
   countdownFadeTime: 2
 --- !u!82 &2246742131366312317
 AudioSource:
@@ -546,7 +550,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5508fc40d613c024ea26fc7d5aa2b3b3, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -1678,11 +1682,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8809556660893180789, guid: 6664e33947b3823499a6a60db67fc008, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.048
+      value: -5.1364164
       objectReference: {fileID: 0}
     - target: {fileID: 8809556660893180789, guid: 6664e33947b3823499a6a60db67fc008, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.135
+      value: 7.66137
       objectReference: {fileID: 0}
     - target: {fileID: 8809556660893180789, guid: 6664e33947b3823499a6a60db67fc008, type: 3}
       propertyPath: m_LocalPosition.z

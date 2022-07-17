@@ -13,4 +13,10 @@ public class MusicPlayer : MonoBehaviour {
         if (GameSettings.instance == null) return;
         audioSource.volume = GameSettings.instance.musicVolume;
     }
+
+    public void Play() {
+        Debug.Log("PLYA");
+
+        audioSource.Play();
+    }
 }
