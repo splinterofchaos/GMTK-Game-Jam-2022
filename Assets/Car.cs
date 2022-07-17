@@ -77,7 +77,7 @@ public class Car : MonoBehaviour {
                 body.AddForce(new Vector2(Random.value, Random.value).normalized *
                               config.bumpImpulse,
                               ForceMode2D.Impulse);
-                Bump();
+                Bump(10);
             }
         } else {
             bumpCountdown = config.timeUntilBump;
