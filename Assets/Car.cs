@@ -120,8 +120,10 @@ public class Car : MonoBehaviour {
 
         if (controller.Firing())
         {
-            WeaponsManager weapon = roller.GetWeapon();
-            weapon.Fire(WeaponLeft, WeaponRight, WeaponBack);
+            ProjectileScript weapon = roller.GetWeapon();
+            // weapon.Fire(WeaponLeft, WeaponRight, WeaponBack);
+            Instantiate(weapon, WeaponLeft).transform.parent = null;
+            Instantiate(weapon, WeaponRight).transform.parent = null;
         }
     }
 
