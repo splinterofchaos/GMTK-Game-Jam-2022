@@ -26,6 +26,10 @@ public class PlayerCarController : CarController {
         if (finished && drift) {
             ArenaEvents.LoadNextLevel();
         }
+
+        if (Input.GetButton("Cancel") && LevelManager.instance != null) {
+            LevelManager.instance.LoadTitle();
+        }
     }
 
     void OnVictory() => finished = true;
