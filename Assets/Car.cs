@@ -51,6 +51,8 @@ public class Car : MonoBehaviour {
                                   config.jetSound;
             jetAudioSource.Play();
             drifting = controller.Drifting();
+
+            roller.Bump(config.rollerBumpImpulse);
         }
 
         body.drag = drifting ? config.driftingDrag : config.drag;
